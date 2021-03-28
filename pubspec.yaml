@@ -31,6 +31,7 @@ dependencies:
   flutter_bloc: ^7.0.0
   equatable: ^2.0.0
   get_it: ^6.0.0
+  http: ^0.13.1
 
 dev_dependencies:
   flutter_test:
