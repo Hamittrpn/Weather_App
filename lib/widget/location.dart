@@ -10,7 +10,7 @@ class LocationWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Text(
-        "",
+        selectedCity,
         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
       ),
     );

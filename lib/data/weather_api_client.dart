@@ -16,7 +16,9 @@ class WeatherApiClient {
       throw Exception("Veri getirilemedi!");
     }
     final responseJson = (jsonDecode(response.body)) as List;
-    return responseJson[0]["woeid"];
+    if (responseJson.length > 0) {
+      return responseJson[0]["woeid"];
+    }
   }
 
   Future<Weather> getWeather(int cityId) async {

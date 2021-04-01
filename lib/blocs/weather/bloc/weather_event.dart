@@ -9,3 +9,8 @@ class FetchWeatherEvent extends WeatherEvent {
   final String cityName;
   FetchWeatherEvent({@required this.cityName});
 }
+
+class RefreshWeatherEvent extends WeatherEvent {
+  final String cityName;
+  RefreshWeatherEvent({@required this.cityName});
+}
