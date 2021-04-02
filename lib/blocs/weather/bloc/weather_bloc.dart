@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:weather_app/data/weather_repository.dart';
 import 'package:weather_app/locator.dart';
 import 'package:weather_app/models/weather.dart';

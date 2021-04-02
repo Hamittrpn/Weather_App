@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_app/blocs/theme/bloc/theme_bloc.dart';
 import 'package:weather_app/blocs/weather/bloc/weather_bloc.dart';
 import 'package:weather_app/widget/choose_city.dart';
 import 'package:weather_app/widget/last_update.dart';
@@ -53,6 +54,10 @@ class WeatherApp extends StatelessWidget {
             }
             if (state is WeatherLoadedState) {
               final incomingWeather = state.weather;
+              final _weatherStateAbbr =
+                  incomingWeather.consolidatedWeather[0].weatherStateAbbr;
+              BlocProvider.of<ThemeBloc>(context)
+                  .add(ChangeThemeEvent(weatherStateAbbr: _weatherStateAbbr));
               _refreshCompleter.complete();
               _refreshCompleter = Completer<void>();
               return RefreshIndicator(
