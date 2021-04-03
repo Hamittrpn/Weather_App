@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/blocs/theme/bloc/theme_bloc.dart';
 import 'package:weather_app/blocs/weather/bloc/weather_bloc.dart';
 import 'package:weather_app/widget/choose_city.dart';
+import 'package:weather_app/widget/gradient_background_color.dart';
 import 'package:weather_app/widget/last_update.dart';
 import 'package:weather_app/widget/situation_image.dart';
 import 'package:weather_app/widget/temperature.dart';
@@ -56,34 +57,43 @@ class WeatherApp extends StatelessWidget {
               final incomingWeather = state.weather;
               final _weatherStateAbbr =
                   incomingWeather.consolidatedWeather[0].weatherStateAbbr;
+              selectedCity = incomingWeather.title;
               BlocProvider.of<ThemeBloc>(context)
                   .add(ChangeThemeEvent(weatherStateAbbr: _weatherStateAbbr));
               _refreshCompleter.complete();
               _refreshCompleter = Completer<void>();
-              return RefreshIndicator(
-                // ignore: missing_return
-                onRefresh: () {
-                  if (selectedCity != null) {
-                    _weatherBloc
-                        .add(RefreshWeatherEvent(cityName: selectedCity));
-                    return _refreshCompleter.future;
-                  }
-                },
-                child: ListView(
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        LocationWidget(
-                          selectedCity: incomingWeather.title,
-                        ),
-                        LastUpdateWidget(),
-                        SituationImageWidget(),
-                        TemperatureWidget(),
-                      ],
+              return BlocBuilder<ThemeBloc, ThemeState>(
+                bloc: BlocProvider.of<ThemeBloc>(context),
+                builder: (context, state) {
+                  return GradientColorContainer(
+                    color: (state as ApplicationTheme).color,
+                    child: RefreshIndicator(
+                      // ignore: missing_return
+                      onRefresh: () {
+                        if (selectedCity != null) {
+                          _weatherBloc
+                              .add(RefreshWeatherEvent(cityName: selectedCity));
+                          return _refreshCompleter.future;
+                        }
+                      },
+                      child: ListView(
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              LocationWidget(
+                                selectedCity: incomingWeather.title,
+                              ),
+                              LastUpdateWidget(),
+                              SituationImageWidget(),
+                              TemperatureWidget(),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
+                  );
+                },
               );
             }
             if (state is WeatherErrorState) {
